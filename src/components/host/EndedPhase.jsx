@@ -18,7 +18,7 @@ export default function EndedPhase() {
 
   return (
     <div className="min-h-screen w-full flex flex-col items-center justify-center p-8 relative overflow-hidden
-                    bg-gradient-to-br from-[#0f0a1e] via-[#1a0a2e] to-[#0a1628]">
+                    bg-gradient-to-br from-[#060B1C] via-[#0A0B27] to-[#130F2D]">
       <Particles count={40} />
 
       <motion.div
@@ -27,7 +27,7 @@ export default function EndedPhase() {
         transition={{ duration: 0.35, ease: EASE_OUT }}
         className="relative z-10 text-center"
       >
-        <div className="text-8xl mb-4">🏆</div>
+        <div className="text-7xl mb-4">🏆</div>
         <h1 className="text-7xl font-black gradient-text mb-2">¡Terminó el concurso!</h1>
         <p className="text-brand-300 text-2xl mb-12">¡Gracias por participar!</p>
 
@@ -50,7 +50,7 @@ export default function EndedPhase() {
                 {rank === 0 && <span className="absolute -top-10 text-5xl">👑</span>}
                 <span className="text-3xl">{MEDAL[rank]}</span>
                 <p className="text-white font-black text-sm mt-1 truncate px-2">{p.name}</p>
-                <p className="text-brand-300 font-bold text-xs">{p.score} pts</p>
+                <p className="text-brand-300 font-bold text-xs">{p.score} puntos</p>
               </motion.div>
             );
           })}
