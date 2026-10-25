@@ -11,56 +11,62 @@ export default function LobbyScreen({ playerName, gameTitle = 'Quiz JCI Bahía B
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-6 bg-gradient-to-br from-[#060B1C] via-[#0A0B27] to-[#130F2D]">
-      {/* Orbs */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-1/3 left-1/3 w-80 h-80 bg-brand-800/20 rounded-full blur-3xl animate-pulse" />
+    <div className="min-h-screen relative flex flex-col items-center justify-center px-5 py-8 overflow-hidden bg-gradient-to-br from-[#060B1C] via-[#0A0B27] to-[#130F2D]">
+      <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+        <div className="absolute -top-28 -right-28 w-80 h-80 rounded-full border-[25px] border-[#0097D7]/15" />
+        <div className="absolute -top-14 -right-14 w-60 h-60 rounded-full border-[20px] border-[#57BCBC]/15" />
+        <div className="absolute bottom-0 -left-24 w-72 h-72 rounded-full bg-[#0097D7]/10 blur-3xl" />
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="relative z-10 text-center max-w-sm w-full"
+      <motion.main
+        initial={{ opacity: 0, y: 18 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        className="relative z-10 w-full max-w-sm text-center"
       >
-        {/* Animated waiting indicator */}
-        <motion.div
-          animate={{ scale: [1, 1.05, 1] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="w-24 h-24 mx-auto mb-6 rounded-full glass-strong flex items-center justify-center"
-        >
-          <span className="text-4xl">⏳</span>
-        </motion.div>
+        <img
+          src="/jci-bahia-blanca.svg"
+          alt="JCI Bahía Blanca"
+          className="w-52 max-w-full h-auto mx-auto mb-8"
+        />
+        <p className="text-[#57BCBC] text-xs font-bold uppercase tracking-[0.18em] mb-3">¡Ya estás participando!</p>
+        <h1 className="text-2xl sm:text-3xl font-black text-white leading-tight">{gameTitle}</h1>
+        <p className="text-white/65 text-sm mt-3">Prepará tus respuestas. ¡En breve empezamos!</p>
 
-        <h1 className="text-3xl font-black gradient-text mb-2">{gameTitle}</h1>
-
-        <div className="glass rounded-2xl p-6 mt-6 space-y-4">
+        <section className="glass-strong rounded-2xl p-6 mt-7 space-y-5 shadow-xl shadow-black/20" aria-label="Estado del concurso">
           <div>
-            <p className="text-white/50 text-xs uppercase tracking-wider font-semibold">Ingresaste como</p>
-            <p className="text-2xl font-black text-white mt-1">{playerName}</p>
+            <p className="text-white/60 text-xs uppercase tracking-wider font-semibold">Tu nombre en el juego</p>
+            <p className="text-2xl font-black text-white mt-1 break-words">{playerName}</p>
           </div>
 
-          <div className="h-px bg-white/10" />
+          <div className="h-px bg-white/15" />
 
           <div>
-            <p className="text-white/50 text-xs uppercase tracking-wider font-semibold">Participantes en espera</p>
+            <p className="text-white/60 text-xs uppercase tracking-wider font-semibold">Participantes en la sala</p>
             <motion.p
               key={playerCount}
-              initial={{ scale: 1.3, color: '#a78bfa' }}
+              initial={{ scale: 1.15, color: '#57BCBC' }}
               animate={{ scale: 1, color: '#ffffff' }}
-              className="text-4xl font-black mt-1"
+              transition={{ duration: 0.3 }}
+              className="text-5xl font-black mt-2 tabular-nums"
             >
               {playerCount}
             </motion.p>
           </div>
 
-          <div className="h-px bg-white/10" />
+          <div className="h-px bg-white/15" />
 
-          <div className="flex items-center justify-center gap-2 text-brand-300">
-            <span className="w-2 h-2 rounded-full bg-brand-400 animate-ping" />
-            <span className="text-sm font-medium">Esperando que el presentador inicie…</span>
+          <div className="flex items-center justify-center gap-3">
+            <span className="relative flex h-3 w-3 shrink-0" aria-hidden="true">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-[#57BCBC] opacity-40 animate-ping" />
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-[#57BCBC]" />
+            </span>
+            <p className="text-[#A8E8FB] font-medium text-sm">Esperando que el presentador inicie…</p>
           </div>
-        </div>
-      </motion.div>
+        </section>
+
+        <p className="text-white/45 text-xs mt-6">No cierres esta pantalla: el concurso comenzará automáticamente.</p>
+      </motion.main>
     </div>
   );
 }
