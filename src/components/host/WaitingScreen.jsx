@@ -45,7 +45,7 @@ export default function WaitingScreen({ gameState }) {
       </motion.div>
 
       {/* Main content */}
-      <div className="relative z-10 flex flex-col items-center gap-8">
+      <div className="relative z-10 flex flex-col items-center gap-6 pt-20 pb-14 px-5">
         {/* Title */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
@@ -53,8 +53,8 @@ export default function WaitingScreen({ gameState }) {
           transition={{ duration: 0.35, ease: EASE_OUT }}
           className="text-center"
         >
-          <h1 className="text-7xl font-black gradient-text leading-none">{title}</h1>
-          <p className="text-brand-300 text-2xl mt-3 font-medium">¡Sumate ahora!</p>
+          <h1 className="text-4xl md:text-6xl font-black gradient-text leading-tight max-w-4xl">{title}</h1>
+          <p className="text-brand-300 text-2xl mt-3 font-medium">¡Escaneá el QR y sumate al desafío!</p>
         </motion.div>
 
         {/* QR Code */}
@@ -73,6 +73,7 @@ export default function WaitingScreen({ gameState }) {
           />
         </motion.div>
 
+        <p className="text-white/65 text-lg text-center max-w-lg">Poné a prueba tus conocimientos y participá desde tu celular.</p>
         {/* Animated dots */}
         <div className="flex gap-3">
           {[0, 1, 2, 3].map((i) => (
@@ -86,14 +87,7 @@ export default function WaitingScreen({ gameState }) {
         </div>
       </div>
 
-      <a
-        href="https://deadtechguy.fun"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="absolute bottom-4 left-0 right-0 text-center text-white/20 text-xs hover:text-white/40 transition-colors z-10"
-      >
-        Built by DeadTechGuy
-      </a>
+      
     </div>
   );
 }
