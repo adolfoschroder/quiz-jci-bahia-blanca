@@ -13,11 +13,11 @@ export default function WaitingScreen({ gameState }) {
   }, []);
 
   const joinUrl = gameState?.joinUrl || window.location.origin;
-  const title   = gameState?.title   || 'QuizLive';
+  const title   = gameState?.title   || 'Quiz JCI Bahía Blanca';
 
   return (
     <div className="min-h-screen w-full flex flex-col items-center justify-center relative overflow-hidden
-                    bg-gradient-to-br from-[#0f0a1e] via-[#1a0a2e] to-[#0a1628]">
+                    bg-gradient-to-br from-[#060B1C] via-[#0A0B27] to-[#130F2D]">
       {/* Animated background blobs */}
       <div className="absolute inset-0 pointer-events-none">
         <motion.div
@@ -40,7 +40,7 @@ export default function WaitingScreen({ gameState }) {
         transition={{ duration: 0.25, ease: EASE_OUT }}
         className="absolute top-8 right-8 glass rounded-2xl px-6 py-3 text-center"
       >
-        <p className="text-brand-300 text-sm font-semibold uppercase tracking-wider">Players</p>
+        <p className="text-brand-300 text-sm font-semibold uppercase tracking-wider">Participantes</p>
         <p className="text-5xl font-black text-white">{playerCount}</p>
       </motion.div>
 
@@ -54,7 +54,7 @@ export default function WaitingScreen({ gameState }) {
           className="text-center"
         >
           <h1 className="text-7xl font-black gradient-text leading-none">{title}</h1>
-          <p className="text-brand-300 text-2xl mt-3 font-medium">Join Now!</p>
+          <p className="text-brand-300 text-2xl mt-3 font-medium">¡Sumate ahora!</p>
         </motion.div>
 
         {/* QR Code */}
