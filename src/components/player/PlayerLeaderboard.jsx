@@ -1,20 +1,20 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { subscribeToPlayers, getPlayerRank } from '../../firebase/db';
+import { subscribeToParticipantes, getPlayerRank } from '../../firebase/db';
 
 const MEDAL = ['🥇', '🥈', '🥉'];
 
-export default function PlayerLeaderboard({ playerId, playerName }) {
-  const [players, setPlayers] = useState([]);
+export default function PlayerClasificación({ playerId, playerName }) {
+  const [players, setParticipantes] = useState([]);
 
   useEffect(() => {
-    const unsub = subscribeToPlayers(setPlayers);
+    const unsub = subscribeToParticipantes(setParticipantes);
     return unsub;
   }, []);
 
   // Proper rank accounting for ties
   const myRank  = players.length ? getPlayerRank(players, playerId) : null;
-  const myScore = players.find((p) => p.id === playerId)?.score ?? 0;
+  const myPuntaje = players.find((p) => p.id === playerId)?.score ?? 0;
   const top50  = players.slice(0, 50);
 
   // Build display ranks for each player (ties share same rank)
@@ -24,7 +24,7 @@ export default function PlayerLeaderboard({ playerId, playerName }) {
   }));
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#0f0a1e] via-[#1a0a2e] to-[#0a1628] px-4 py-6">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#060B1C] via-[#0A0B27] to-[#130F2D] px-4 py-6">
 
       {/* Title */}
       <motion.div
@@ -32,8 +32,8 @@ export default function PlayerLeaderboard({ playerId, playerName }) {
         animate={{ opacity: 1, y: 0 }}
         className="text-center mb-4"
       >
-        <h2 className="text-2xl font-black gradient-text">Leaderboard</h2>
-        <p className="text-brand-300 text-sm mt-0.5">Check the big screen!</p>
+        <h2 className="text-2xl font-black gradient-text">Clasificación</h2>
+        <p className="text-brand-300 text-sm mt-0.5">¡Mirá la pantalla principal!</p>
       </motion.div>
 
       {/* My stats card */}
@@ -44,14 +44,14 @@ export default function PlayerLeaderboard({ playerId, playerName }) {
         className="glass-strong rounded-2xl p-4 mb-4 flex items-center justify-between"
       >
         <div>
-          <p className="text-xs text-brand-300 uppercase tracking-wider font-semibold">Your rank</p>
+          <p className="text-xs text-brand-300 uppercase tracking-wider font-semibold">Tu posición</p>
           <p className="text-3xl font-black text-white mt-0.5">
             {myRank != null ? `#${myRank}` : '—'}
           </p>
         </div>
         <div className="text-right">
-          <p className="text-xs text-brand-300 uppercase tracking-wider font-semibold">Score</p>
-          <p className="text-3xl font-black gradient-text mt-0.5">{myScore}</p>
+          <p className="text-xs text-brand-300 uppercase tracking-wider font-semibold">Puntaje</p>
+          <p className="text-3xl font-black gradient-text mt-0.5">{myPuntaje}</p>
         </div>
       </motion.div>
 
@@ -86,7 +86,7 @@ export default function PlayerLeaderboard({ playerId, playerName }) {
                 {p.name}{isMe ? ' (you)' : ''}
               </span>
 
-              {/* Score */}
+              {/* Puntaje */}
               <span className="font-black text-white tabular-nums text-sm shrink-0">
                 {p.score}
               </span>
