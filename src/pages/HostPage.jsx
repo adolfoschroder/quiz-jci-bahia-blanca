@@ -35,6 +35,12 @@ export default function HostPage() {
 
   return (
     <div className="min-h-screen w-full overflow-hidden">
+      {/* Identidad JCI persistente en todas las fases */}
+      <div className="fixed top-5 left-6 z-40 pointer-events-none flex items-center gap-3 rounded-xl bg-[#060B1C]/70 backdrop-blur-sm px-3 py-2 border border-white/10">
+        <img src="/jci-bahia-blanca.svg" alt="JCI Bahía Blanca" className="w-32 sm:w-40 h-auto" />
+        <div className="hidden lg:block h-7 w-px bg-white/20" />
+        <span className="hidden lg:block text-white/80 text-xs font-semibold">Normas parlamentarias</span>
+      </div>
 
       {/* Join URL — fixed bottom bar, always visible on all host screens */}
       <div className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-center
