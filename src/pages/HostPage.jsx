@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../firebase/config';
 import { AnimatePresence, motion } from 'framer-motion';
 import { QRCodeSVG } from 'qrcode.react';
 import useGameState from '../hooks/useGameState';
-import { subscribeToQuestions } from '../firebase/db';
+import { subscribeToQuestions, startQuiz, advanceToResults, advanceToLeaderboard, nextQuestion, endQuiz } from '../firebase/db';
 import { pageFade } from '../lib/motion';
 import WaitingScreen    from '../components/host/WaitingScreen';
 import QuestionPhase    from '../components/host/QuestionPhase';
@@ -17,11 +19,33 @@ import ErrorScreen      from '../components/shared/ErrorScreen';
 export default function HostPage() {
   const { gameState, loading, error } = useGameState();
   const [questions, setQuestions] = useState([]);
+  const [isPresenter, setIsPresenter] = useState(false);
+  const [advancing, setAdvancing] = useState(false);
+  const [controlError, setControlError] = useState('');
+
+  useEffect(() => onAuthStateChanged(auth, user => {
+    setIsPresenter(user?.uid === 'yxfjM5aYwCekqwW8q0IPB7OGCt13');
+  }), []);
+
 
   useEffect(() => {
     const unsub = subscribeToQuestions(setQuestions);
     return unsub;
   }, []);
+
+  // El temporizador funciona también desde la proyección, siempre que
+  // el presentador haya iniciado sesión en el navegador.
+  useEffect(() => {
+    if (!isPresenter || gameState?.phase !== 'question' || !gameState.questionStartTime) return;
+    const question = questions[gameState.currentQuestionIndex];
+    if (!question) return;
+    const started = gameState.questionStartTime.toMillis?.()
+      ?? (gameState.questionStartTime.seconds ?? 0) * 1000;
+    const remaining = Math.max(0, (question.timer ?? 15) * 1000 - (Date.now() - started));
+    const timer = setTimeout(() => advanceToResults().catch(console.error), remaining);
+    return () => clearTimeout(timer);
+  }, [isPresenter, gameState?.phase, gameState?.currentQuestionIndex,
+      gameState?.questionStartTime?.seconds, questions]);
 
   if (error) return <ErrorScreen message={error} />;
   if (loading) return <LoadingSpinner />;
@@ -33,6 +57,28 @@ export default function HostPage() {
   const joinUrl = gameState?.joinUrl || window.location.origin;
   const showQR  = gameState?.showQR ?? false;
 
+  const lastQuestion = qIndex >= questions.length - 1;
+  const action = phase === 'waiting' && questions.length
+    ? { label: '▶ Iniciar concurso', run: startQuiz }
+    : phase === 'question'
+      ? { label: '⏭ Mostrar resultados', run: advanceToResults }
+      : phase === 'results'
+        ? { label: '📊 Mostrar clasificación', run: advanceToLeaderboard }
+        : phase === 'leaderboard'
+          ? lastQuestion
+            ? { label: '🏁 Finalizar concurso', run: endQuiz }
+            : { label: '▶ Siguiente pregunta (' + (qIndex + 2) + '/' + questions.length + ')', run: () => nextQuestion(qIndex, questions.length) }
+          : null;
+
+  const runAction = async () => {
+    if (!action || advancing) return;
+    setAdvancing(true);
+    setControlError('');
+    try { await action.run(); }
+    catch (err) { setControlError(err?.message ?? 'No se pudo avanzar'); }
+    finally { setAdvancing(false); }
+  };
+
   return (
     <div className="min-h-screen w-full overflow-hidden">
       {/* Identidad JCI persistente en todas las fases */}
@@ -41,6 +87,20 @@ export default function HostPage() {
         <div className="hidden lg:block h-7 w-px bg-white/20" />
         <span className="hidden lg:block text-white/80 text-xs font-semibold">Normas parlamentarias</span>
       </div>
+
+      {/* Los controles no se muestran en la proyección pública anónima. */}
+      {isPresenter && (
+        <div className="fixed bottom-14 right-5 z-[60] flex flex-col items-end gap-2">
+          {controlError && <p role="alert" className="rounded-xl bg-red-950/95 border border-red-400/50 text-red-100 text-xs px-3 py-2 max-w-xs">{controlError}</p>}
+          {action && (
+            <button type="button" onClick={runAction} disabled={advancing}
+              className="px-6 py-4 rounded-2xl font-extrabold text-base bg-[#0097D7] hover:bg-[#007daf] text-white shadow-2xl shadow-black/50 border border-white/25 disabled:opacity-60 transition-colors">
+              {advancing ? 'Procesando…' : action.label}
+            </button>
+          )}
+          <span className="rounded-lg bg-[#060B1C]/80 px-3 py-1 text-[#A8E8FB] text-xs border border-white/10">Control del presentador</span>
+        </div>
+      )}
 
       {/* Join URL — fixed bottom bar, always visible on all host screens */}
       <div className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-center
