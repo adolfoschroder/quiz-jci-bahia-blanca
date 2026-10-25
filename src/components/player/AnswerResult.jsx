@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { subscribeToPlayerAnswer, subscribeToAnswerKey, calcScore } from '../../firebase/db';
+import { subscribeToPlayerAnswer, subscribeToAnswerKey, calcPuntaje } from '../../firebase/db';
 
 export default function AnswerResult({ question, playerId }) {
   const [result,    setResult]    = useState(null);
@@ -34,7 +34,7 @@ export default function AnswerResult({ question, playerId }) {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center
-                      bg-gradient-to-br from-[#0f0a1e] via-[#1a0a2e] to-[#0a1628]">
+                      bg-gradient-to-br from-[#060B1C] via-[#0A0B27] to-[#130F2D]">
         <div className="w-8 h-8 border-2 border-brand-400 border-t-transparent rounded-full animate-spin" />
       </div>
     );
@@ -43,13 +43,13 @@ export default function AnswerResult({ question, playerId }) {
   const didAnswer  = result !== null;
   const chosen     = result?.answer ?? null;
   const correct    = answerKey;
-  const isCorrect  = didAnswer && correct !== null ? chosen === correct : false;
-  const score      = isCorrect ? calcScore(true, result.timeTaken, result.timer ?? question.timer ?? 15) : 0;
+  const isCorrecta  = didAnswer && correct !== null ? chosen === correct : false;
+  const score      = isCorrecta ? calcPuntaje(true, result.timeTaken, result.timer ?? question.timer ?? 15) : 0;
   const LABELS     = ['A', 'B', 'C', 'D'];
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6 gap-5
-                    bg-gradient-to-br from-[#0f0a1e] via-[#1a0a2e] to-[#0a1628]">
+                    bg-gradient-to-br from-[#060B1C] via-[#0A0B27] to-[#130F2D]">
 
       {/* Result badge */}
       <motion.div
@@ -58,10 +58,10 @@ export default function AnswerResult({ question, playerId }) {
         transition={{ type: 'spring', bounce: 0.5 }}
         className={`w-24 h-24 rounded-full flex items-center justify-center text-5xl
           ${!didAnswer ? 'bg-gray-500/20 border-2 border-gray-500/40' :
-            isCorrect  ? 'bg-green-500/20 border-2 border-green-400/60' :
+            isCorrecta  ? 'bg-green-500/20 border-2 border-green-400/60' :
                          'bg-red-500/20   border-2 border-red-400/60'}`}
       >
-        {!didAnswer ? '⏰' : isCorrect ? '✅' : '❌'}
+        {!didAnswer ? '⏰' : isCorrecta ? '✅' : '❌'}
       </motion.div>
 
       {/* Status text */}
@@ -72,12 +72,12 @@ export default function AnswerResult({ question, playerId }) {
         className="text-center"
       >
         <p className={`text-3xl font-black
-          ${!didAnswer ? 'text-gray-400' : isCorrect ? 'text-green-400' : 'text-red-400'}`}>
-          {!didAnswer ? "Time's up!" : isCorrect ? 'Correct!' : 'Wrong!'}
+          ${!didAnswer ? 'text-gray-400' : isCorrecta ? 'text-green-400' : 'text-red-400'}`}>
+          {!didAnswer ? "¡Se terminó el tiempo!" : isCorrecta ? '¡Correctao!' : 'Incorrecto'}
         </p>
         {didAnswer && (
           <p className="text-white/40 text-sm mt-1">
-            +{score} pts
+            +{score} puntos
           </p>
         )}
       </motion.div>
@@ -92,23 +92,23 @@ export default function AnswerResult({ question, playerId }) {
         {/* Their answer */}
         {didAnswer && (
           <div className={`rounded-xl px-4 py-3 flex items-center gap-3 border
-            ${isCorrect
+            ${isCorrecta
               ? 'bg-green-500/15 border-green-500/40'
               : 'bg-red-500/15   border-red-500/40'}`}
           >
             <span className={`font-black text-sm w-6 text-center
-              ${isCorrect ? 'text-green-400' : 'text-red-400'}`}>
+              ${isCorrecta ? 'text-green-400' : 'text-red-400'}`}>
               {LABELS[chosen]}
             </span>
             <span className="text-white text-sm font-semibold flex-1">
               {question.options[chosen]}
             </span>
-            <span className="text-lg">{isCorrect ? '✓' : '✗'}</span>
+            <span className="text-lg">{isCorrecta ? '✓' : '✗'}</span>
           </div>
         )}
 
-        {/* Correct answer (if they got it wrong or didn't answer) */}
-        {!isCorrect && correct != null && (
+        {/* Correcta answer (if they got it wrong or didn't answer) */}
+        {!isCorrecta && correct != null && (
           <div className="rounded-xl px-4 py-3 flex items-center gap-3
                           bg-green-500/15 border border-green-500/40">
             <span className="font-black text-sm w-6 text-center text-green-400">
@@ -117,7 +117,7 @@ export default function AnswerResult({ question, playerId }) {
             <span className="text-white text-sm font-semibold flex-1">
               {question.options[correct]}
             </span>
-            <span className="text-green-400 text-xs font-bold">Correct</span>
+            <span className="text-green-400 text-xs font-bold">Correcta</span>
           </div>
         )}
       </motion.div>
@@ -128,7 +128,7 @@ export default function AnswerResult({ question, playerId }) {
         transition={{ delay: 0.5 }}
         className="text-white/30 text-xs"
       >
-        Leaderboard coming up…
+        Clasificación coming up…
       </motion.p>
     </div>
   );
