@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import {
   startQuiz,
   nextQuestion,
-  advanceToClasificación,
+  advanceToLeaderboard,
   endQuiz,
   resetGame,
   advanceToResults,
@@ -14,7 +14,7 @@ const PHASE_LABELS = {
   question:    { label: 'Pregunta en curso', color: 'text-yellow-300', dot: 'bg-yellow-400' },
   results:     { label: 'Mostrando resultados',      color: 'text-orange-300', dot: 'bg-orange-400' },
   leaderboard: { label: 'Clasificación',          color: 'text-green-300',  dot: 'bg-green-400' },
-  ended:       { label: 'Concurso finalizado',           color: 'text-red-300',    dot: 'bg-red-400' },
+  ended:       { label: 'Concurso terminado',           color: 'text-red-300',    dot: 'bg-red-400' },
 };
 
 function ActionButton({ label, onClick, disabled, variant = 'primary', danger = false }) {
@@ -28,7 +28,7 @@ function ActionButton({ label, onClick, disabled, variant = 'primary', danger = 
 
   const base = 'w-full py-3 rounded-xl font-bold text-sm transition-all disabled:opacity-40 disabled:cursor-not-allowed';
   const styles = {
-    primary: `${base} bg-gradient-to-r from-brand-600 to-cyan-600 hover:from-brand-500 hover:to-cyan-500 text-white shadow-lg`,
+    primary: `${base} bg-gradient-to-r from-brand-600 to-purple-600 hover:from-brand-500 hover:to-purple-500 text-white shadow-lg`,
     secondary: `${base} glass border border-white/20 text-white hover:bg-white/10`,
     danger: `${base} bg-red-600/30 border border-red-500/50 text-red-300 hover:bg-red-600/50`,
   };
@@ -43,7 +43,7 @@ function ActionButton({ label, onClick, disabled, variant = 'primary', danger = 
       {loading ? (
         <span className="flex items-center justify-center gap-2">
           <span className="w-3 h-3 border-2 border-current/30 border-t-current rounded-full animate-spin" />
-          Procesando…
+          Working…
         </span>
       ) : label}
     </motion.button>
@@ -73,7 +73,7 @@ export default function GameControl({ gameState, questions }) {
       await resetGame();
     } catch (err) {
       console.error('Reset game failed:', err);
-      alert(`No se pudo reiniciar la partida: ${err.code || err.message || err}`);
+      alert(`Couldn't reset game: ${err.code || err.message || err}`);
     }
   };
 
@@ -96,7 +96,7 @@ export default function GameControl({ gameState, questions }) {
         )}
       </div>
 
-      {/* Controles */}
+      {/* Controls */}
       <div className="glass rounded-2xl p-4 space-y-3">
         <p className="text-xs text-white/40 uppercase tracking-wider font-semibold">Controles</p>
 
@@ -118,15 +118,15 @@ export default function GameControl({ gameState, questions }) {
           />
         )}
 
-        {/* Results → Clasificación */}
+        {/* Results → Leaderboard */}
         {phase === 'results' && (
           <ActionButton
-            label="📊 Show Clasificación"
-            onClick={advanceToClasificación}
+            label="📊 Mostrar clasificación"
+            onClick={advanceToLeaderboard}
           />
         )}
 
-        {/* Clasificación → Next / End */}
+        {/* Leaderboard → Next / End */}
         {phase === 'leaderboard' && (
           <>
             {!isLastQuestion && (
@@ -145,7 +145,7 @@ export default function GameControl({ gameState, questions }) {
 
         {/* Ended */}
         {phase === 'ended' && (
-          <p className="text-center text-white/40 text-sm py-2">Concurso terminado. Reiniciá para volver a jugar.</p>
+          <p className="text-center text-white/40 text-sm py-2">Quiz has ended. Reset to start again.</p>
         )}
       </div>
 
@@ -154,7 +154,7 @@ export default function GameControl({ gameState, questions }) {
         <p className="text-xs text-white/40 uppercase tracking-wider font-semibold mb-3">Reinicio de partida</p>
         <ActionButton
           label={confirmReset
-            ? '⚠ Confirmar: pulsá otra vez para borrar participantes y respuestas'
+            ? '⚠ Confirm reset — click again to wipe players & answers'
             : '🔄 Reiniciar partida (borra participantes y respuestas)'}
           onClick={handleReset}
           danger
