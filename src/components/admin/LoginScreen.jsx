@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { signInWithEmailAndContraseña } from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebase/config';
 
 export default function LoginScreen({ onLogin }) {
-  const [password, setContraseña] = useState('');
+  const [password, setPassword] = useState('');
   const [error,    setError]    = useState('');
   const [busy,     setBusy]     = useState(false);
 
@@ -13,18 +13,18 @@ export default function LoginScreen({ onLogin }) {
     setBusy(true);
     setError('');
     try {
-      await signInWithEmailAndContraseña(auth, 'adolfoschroder@gmail.com', password);
+      await signInWithEmailAndPassword(auth, 'adolfoschroder@gmail.com', password);
       onLogin();
     } catch {
-      setError('Contraseña incorrecta.');
-      setContraseña('');
+      setError('Incorrect password.');
+      setPassword('');
     } finally {
       setBusy(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-6 bg-gradient-to-br from-[#0f0a1e] via-[#1a0a2e] to-[#0a1628]">
+    <div className="min-h-screen flex items-center justify-center px-6 bg-gradient-to-br from-[#060B1C] via-[#0A0B27] to-[#130F2D]">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -40,8 +40,8 @@ export default function LoginScreen({ onLogin }) {
           <input
             type="password"
             value={password}
-            onChange={(e) => setContraseña(e.target.value)}
-            placeholder="Contraseña"
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
             autoFocus
             className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3
                        text-white placeholder-white/30 focus:outline-none focus:border-brand-400
@@ -52,11 +52,11 @@ export default function LoginScreen({ onLogin }) {
             type="submit"
             disabled={busy}
             className="w-full py-3 rounded-xl font-black text-white
-                       bg-gradient-to-r from-brand-600 to-cyan-600
-                       hover:from-brand-500 hover:to-cyan-500 transition-all
+                       bg-gradient-to-r from-brand-600 to-purple-600
+                       hover:from-brand-500 hover:to-purple-500 transition-all
                        disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {busy ? 'Ingresando…' : 'Ingresar →'}
+            {busy ? 'Signing in…' : 'Login →'}
           </button>
         </form>
       </motion.div>
