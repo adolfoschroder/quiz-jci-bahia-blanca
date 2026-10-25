@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndContraseña } from 'firebase/auth';
 import { auth } from '../../firebase/config';
 
 export default function LoginScreen({ onLogin }) {
-  const [password, setPassword] = useState('');
+  const [password, setContraseña] = useState('');
   const [error,    setError]    = useState('');
   const [busy,     setBusy]     = useState(false);
 
@@ -13,11 +13,11 @@ export default function LoginScreen({ onLogin }) {
     setBusy(true);
     setError('');
     try {
-      await signInWithEmailAndPassword(auth, 'adolfoschroder@gmail.com', password);
+      await signInWithEmailAndContraseña(auth, 'adolfoschroder@gmail.com', password);
       onLogin();
     } catch {
-      setError('Incorrect password.');
-      setPassword('');
+      setError('Contraseña incorrecta.');
+      setContraseña('');
     } finally {
       setBusy(false);
     }
@@ -32,16 +32,16 @@ export default function LoginScreen({ onLogin }) {
       >
         <div className="text-center mb-6">
           <span className="text-5xl">🔐</span>
-          <h1 className="text-2xl font-black gradient-text mt-3">Admin Panel</h1>
-          <p className="text-white/40 text-sm mt-1">Enter your admin password</p>
+          <h1 className="text-2xl font-black gradient-text mt-3">Panel de administración</h1>
+          <p className="text-white/40 text-sm mt-1">Ingresá tu contraseña</p>
         </div>
 
         <form onSubmit={submit} className="space-y-4">
           <input
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
+            onChange={(e) => setContraseña(e.target.value)}
+            placeholder="Contraseña"
             autoFocus
             className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3
                        text-white placeholder-white/30 focus:outline-none focus:border-brand-400
@@ -52,11 +52,11 @@ export default function LoginScreen({ onLogin }) {
             type="submit"
             disabled={busy}
             className="w-full py-3 rounded-xl font-black text-white
-                       bg-gradient-to-r from-brand-600 to-purple-600
-                       hover:from-brand-500 hover:to-purple-500 transition-all
+                       bg-gradient-to-r from-brand-600 to-cyan-600
+                       hover:from-brand-500 hover:to-cyan-500 transition-all
                        disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {busy ? 'Signing in…' : 'Login →'}
+            {busy ? 'Ingresando…' : 'Ingresar →'}
           </button>
         </form>
       </motion.div>
