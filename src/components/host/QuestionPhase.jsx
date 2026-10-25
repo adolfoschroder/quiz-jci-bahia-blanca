@@ -48,7 +48,7 @@ export default function QuestionPhase({
   }, [question.id, gameState?.questionStartTime, question.timer]);
 
   return (
-    <div className="min-h-screen w-full flex flex-col p-8 bg-gradient-to-br from-[#0f0a1e] via-[#1a0a2e] to-[#0a1628]">
+    <div className="min-h-screen w-full flex flex-col p-8 bg-gradient-to-br from-[#060B1C] via-[#0A0B27] to-[#130F2D]">
       {/* Top bar */}
       <div className="flex items-center justify-between mb-6">
         <div className="glass rounded-xl px-4 py-2">
