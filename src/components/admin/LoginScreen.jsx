@@ -13,7 +13,7 @@ export default function LoginScreen({ onLogin }) {
     setBusy(true);
     setError('');
     try {
-      await signInWithEmailAndPassword(auth, 'admin@quizlive.internal', password);
+      await signInWithEmailAndPassword(auth, 'adolfoschroder@gmail.com', password);
       onLogin();
     } catch {
       setError('Incorrect password.');
