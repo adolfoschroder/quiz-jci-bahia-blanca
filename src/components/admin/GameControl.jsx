@@ -103,7 +103,7 @@ export default function GameControl({ gameState, questions }) {
         {/* Waiting → Start */}
         {phase === 'waiting' && (
           <ActionButton
-            label={`🚀 Iniciar concurso (${total} question${total !== 1 ? 's' : ''})`}
+            label={`🚀 Iniciar concurso (${total} pregunta${total !== 1 ? 's' : ''})`}
             disabled={total === 0}
             onClick={startQuiz}
           />
@@ -145,7 +145,7 @@ export default function GameControl({ gameState, questions }) {
 
         {/* Ended */}
         {phase === 'ended' && (
-          <p className="text-center text-white/40 text-sm py-2">Quiz has ended. Reset to start again.</p>
+          <p className="text-center text-white/40 text-sm py-2">El concurso terminó. Reiniciá para comenzar otra partida.</p>
         )}
       </div>
 
@@ -154,7 +154,7 @@ export default function GameControl({ gameState, questions }) {
         <p className="text-xs text-white/40 uppercase tracking-wider font-semibold mb-3">Reinicio de partida</p>
         <ActionButton
           label={confirmReset
-            ? '⚠ Confirm reset — click again to wipe players & answers'
+            ? '⚠ Confirmá: volvé a pulsar para borrar participantes y respuestas'
             : '🔄 Reiniciar partida (borra participantes y respuestas)'}
           onClick={handleReset}
           danger
