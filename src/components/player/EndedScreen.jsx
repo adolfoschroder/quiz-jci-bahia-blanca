@@ -1,22 +1,22 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { subscribeToPlayers, getPlayerRank } from '../../firebase/db';
+import { subscribeToParticipantes, getPlayerRank } from '../../firebase/db';
 import Particles from '../shared/Particles';
 
 export default function EndedScreen({ playerId, playerName }) {
-  const [players, setPlayers] = useState([]);
+  const [players, setParticipantes] = useState([]);
 
   useEffect(() => {
-    const unsub = subscribeToPlayers(setPlayers);
+    const unsub = subscribeToParticipantes(setParticipantes);
     return unsub;
   }, []);
 
   const myRank   = players.length ? getPlayerRank(players, playerId) : 0;
-  const myScore  = players.find((p) => p.id === playerId)?.score ?? 0;
+  const myPuntaje  = players.find((p) => p.id === playerId)?.score ?? 0;
   const isWinner = myRank === 1 && players.length > 0;
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-6 bg-gradient-to-br from-[#0f0a1e] via-[#1a0a2e] to-[#0a1628]">
+    <div className="min-h-screen flex flex-col items-center justify-center px-6 bg-gradient-to-br from-[#060B1C] via-[#0A0B27] to-[#130F2D]">
       {isWinner && <Particles count={30} />}
 
       <motion.div
@@ -28,17 +28,17 @@ export default function EndedScreen({ playerId, playerName }) {
         <div className="text-6xl mb-4">
           {isWinner ? '🏆' : myRank <= 3 ? '🎉' : '👏'}
         </div>
-        <h2 className="text-2xl font-black gradient-text mb-1">Quiz Over!</h2>
-        <p className="text-white/50 text-sm mb-6">Thanks for playing, {playerName}!</p>
+        <h2 className="text-2xl font-black gradient-text mb-1">¡Terminó el concurso!</h2>
+        <p className="text-white/50 text-sm mb-6">¡Gracias por participar, {playerName}!</p>
 
         <div className="space-y-3">
           <div className="glass rounded-xl p-3">
-            <p className="text-xs text-brand-300 uppercase tracking-wider">Final Rank</p>
+            <p className="text-xs text-brand-300 uppercase tracking-wider">Posición final</p>
             <p className="text-3xl font-black text-white">#{myRank || '—'}</p>
           </div>
           <div className="glass rounded-xl p-3">
-            <p className="text-xs text-brand-300 uppercase tracking-wider">Total Score</p>
-            <p className="text-3xl font-black gradient-text">{myScore}</p>
+            <p className="text-xs text-brand-300 uppercase tracking-wider">Puntaje total</p>
+            <p className="text-3xl font-black gradient-text">{myPuntaje}</p>
           </div>
         </div>
 
