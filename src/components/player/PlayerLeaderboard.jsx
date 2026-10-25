@@ -1,20 +1,20 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { subscribeToParticipantes, getPlayerRank } from '../../firebase/db';
+import { subscribeToPlayers, getPlayerRank } from '../../firebase/db';
 
 const MEDAL = ['🥇', '🥈', '🥉'];
 
-export default function PlayerClasificación({ playerId, playerName }) {
-  const [players, setParticipantes] = useState([]);
+export default function PlayerLeaderboard({ playerId, playerName }) {
+  const [players, setPlayers] = useState([]);
 
   useEffect(() => {
-    const unsub = subscribeToParticipantes(setParticipantes);
+    const unsub = subscribeToPlayers(setPlayers);
     return unsub;
   }, []);
 
   // Proper rank accounting for ties
   const myRank  = players.length ? getPlayerRank(players, playerId) : null;
-  const myPuntaje = players.find((p) => p.id === playerId)?.score ?? 0;
+  const myScore = players.find((p) => p.id === playerId)?.score ?? 0;
   const top50  = players.slice(0, 50);
 
   // Build display ranks for each player (ties share same rank)
@@ -32,8 +32,8 @@ export default function PlayerClasificación({ playerId, playerName }) {
         animate={{ opacity: 1, y: 0 }}
         className="text-center mb-4"
       >
-        <h2 className="text-2xl font-black gradient-text">Clasificación</h2>
-        <p className="text-brand-300 text-sm mt-0.5">¡Mirá la pantalla principal!</p>
+        <h2 className="text-2xl font-black gradient-text">Leaderboard</h2>
+        <p className="text-brand-300 text-sm mt-0.5">Check the big screen!</p>
       </motion.div>
 
       {/* My stats card */}
@@ -44,14 +44,14 @@ export default function PlayerClasificación({ playerId, playerName }) {
         className="glass-strong rounded-2xl p-4 mb-4 flex items-center justify-between"
       >
         <div>
-          <p className="text-xs text-brand-300 uppercase tracking-wider font-semibold">Tu posición</p>
+          <p className="text-xs text-brand-300 uppercase tracking-wider font-semibold">Your rank</p>
           <p className="text-3xl font-black text-white mt-0.5">
             {myRank != null ? `#${myRank}` : '—'}
           </p>
         </div>
         <div className="text-right">
-          <p className="text-xs text-brand-300 uppercase tracking-wider font-semibold">Puntaje</p>
-          <p className="text-3xl font-black gradient-text mt-0.5">{myPuntaje}</p>
+          <p className="text-xs text-brand-300 uppercase tracking-wider font-semibold">Score</p>
+          <p className="text-3xl font-black gradient-text mt-0.5">{myScore}</p>
         </div>
       </motion.div>
 
@@ -86,7 +86,7 @@ export default function PlayerClasificación({ playerId, playerName }) {
                 {p.name}{isMe ? ' (you)' : ''}
               </span>
 
-              {/* Puntaje */}
+              {/* Score */}
               <span className="font-black text-white tabular-nums text-sm shrink-0">
                 {p.score}
               </span>
