@@ -71,16 +71,16 @@ export default function ResultsPhase({ question, questionIndex, totalQuestions }
   }));
 
   return (
-    <div className="min-h-screen w-full flex flex-col p-8 bg-gradient-to-br from-[#0f0a1e] via-[#1a0a2e] to-[#0a1628]">
+    <div className="min-h-screen w-full flex flex-col p-8 bg-gradient-to-br from-[#060B1C] via-[#0A0B27] to-[#130F2D]">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="glass rounded-xl px-4 py-2">
           <span className="text-brand-300 text-sm font-semibold">
-            Question {questionIndex + 1} / {totalQuestions} — Results
+            Pregunta {questionIndex + 1} / {totalQuestions} — Resultados
           </span>
         </div>
         <div className="glass rounded-xl px-4 py-2">
-          <span className="text-white text-sm font-semibold">{answers.length} responses</span>
+          <span className="text-white text-sm font-semibold">{answers.length} respuestas</span>
         </div>
       </div>
 
@@ -131,7 +131,7 @@ export default function ResultsPhase({ question, questionIndex, totalQuestions }
                 color: 'white',
               }}
               formatter={(val, name, props) => [`${val} votos`, props.payload.correct ? '✅ Correcta' : '❌ Incorrecta']}
-              labelStyle={{ color: '#a78bfa' }}
+              labelStyle={{ color: '#57BCBC' }}
             />
             <Bar dataKey="count" radius={[0, 8, 8, 0]} isAnimationActive animationDuration={800}>
               {chartData.map((entry, idx) => (
