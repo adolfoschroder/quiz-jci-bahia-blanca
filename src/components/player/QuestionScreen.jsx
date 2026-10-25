@@ -76,7 +76,7 @@ export default function QuestionScreen({ question, playerId, questionStartTime, 
   }, [submitting, expired, selected, question, playerId, questionStartTime, totalTime]);
 
   const pct      = timeLeft / totalTime;
-  const barColor = pct > 0.5 ? '#0097D7' : pct > 0.25 ? '#f59e0b' : '#ef4444';
+  const barColor = pct > 0.5 ? '#8b5cf6' : pct > 0.25 ? '#f59e0b' : '#ef4444';
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#060B1C] via-[#0A0B27] to-[#130F2D]">
@@ -97,8 +97,8 @@ export default function QuestionScreen({ question, playerId, questionStartTime, 
             </span>
             <span className="text-brand-300 text-sm font-semibold">
               {expired
-                ? selected !== null ? '🔒 Respuesta confirmada' : '⏰ Time\'s up'
-                : selected !== null ? 'Respuesta seleccionada' : 'Elegí tu respuesta'}
+                ? selected !== null ? '🔒 Locked in' : '⏰ Time\'s up'
+                : selected !== null ? 'Answer selected' : 'Pick your answer'}
             </span>
           </div>
           <motion.div
