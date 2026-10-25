@@ -138,7 +138,7 @@ export default function AdminPage() {
       {/* Header */}
       <header className="glass border-b border-white/10 px-6 py-4 flex items-center justify-between sticky top-0 z-40">
         <div className="flex items-center gap-3">
-          <img src="/jci-bahia-blanca.svg" alt="QuizLive" className="w-20 h-auto" />
+          <img src="/jci-bahia-blanca.svg" alt="JCI Bahía Blanca" className="w-20 h-auto" />
           <div>
             <h1 className="font-black text-white leading-none">Panel de administración</h1>
             <p className="text-brand-300 text-xs">{gameState?.title ?? 'Quiz JCI Bahía Blanca'}</p>
@@ -146,7 +146,7 @@ export default function AdminPage() {
         </div>
         <div className="flex items-center gap-3">
           <div className="glass rounded-xl px-3 py-1.5 text-xs text-white/60">
-            {players.length} player{players.length !== 1 ? 's' : ''} · {questions.length} Q
+            {players.length} participante{players.length !== 1 ? 's' : ''} · {questions.length} preguntas
           </div>
           <button
             onClick={() => signOut(auth)}
