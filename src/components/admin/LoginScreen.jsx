@@ -16,7 +16,7 @@ export default function LoginScreen({ onLogin }) {
       await signInWithEmailAndPassword(auth, 'adolfoschroder@gmail.com', password);
       onLogin();
     } catch {
-      setError('Incorrect password.');
+      setError('Contraseña incorrecta.');
       setPassword('');
     } finally {
       setBusy(false);
@@ -41,7 +41,7 @@ export default function LoginScreen({ onLogin }) {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
+            placeholder="Contraseña"
             autoFocus
             className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3
                        text-white placeholder-white/30 focus:outline-none focus:border-brand-400
@@ -52,11 +52,11 @@ export default function LoginScreen({ onLogin }) {
             type="submit"
             disabled={busy}
             className="w-full py-3 rounded-xl font-black text-white
-                       bg-gradient-to-r from-brand-600 to-purple-600
-                       hover:from-brand-500 hover:to-purple-500 transition-all
+                       bg-gradient-to-r from-brand-600 to-cyan-600
+                       hover:from-brand-500 hover:to-cyan-500 transition-all
                        disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {busy ? 'Signing in…' : 'Login →'}
+            {busy ? 'Ingresando…' : 'Ingresar →'}
           </button>
         </form>
       </motion.div>

@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { updateGameState } from '../../firebase/db';
 
 export default function HostControl({ gameState }) {
-  const [title,    setTitle]    = useState(gameState?.title   ?? 'QuizLive');
+  const [title,    setTitle]    = useState(gameState?.title   ?? 'Quiz JCI Bahía Blanca');
   const [joinUrl,  setJoinUrl]  = useState(gameState?.joinUrl ?? window.location.origin);
   const [saving,   setSaving]   = useState(false);
   const [saved,    setSaved]    = useState(false);
@@ -16,7 +16,7 @@ export default function HostControl({ gameState }) {
   // QR preview must reflect the SAVED url, not the unsaved input — otherwise
   // admins type a new URL, see the QR update, and assume it's already live.
   const savedJoinUrl = gameState?.joinUrl || window.location.origin;
-  const dirty        = joinUrl !== savedJoinUrl || title !== (gameState?.title ?? 'QuizLive');
+  const dirty        = joinUrl !== savedJoinUrl || title !== (gameState?.title ?? 'Quiz JCI Bahía Blanca');
 
   const copyUrl = () => {
     navigator.clipboard.writeText(savedJoinUrl);
@@ -55,15 +55,15 @@ export default function HostControl({ gameState }) {
       >
         🖥 Open Host Screen (Projector)
       </motion.button>
-      <p className="text-center text-white/30 text-xs">Opens /host in a new tab — show this on the projector</p>
+      <p className="text-center text-white/30 text-xs">Abrí /host en otra pestaña y proyectá esa pantalla</p>
 
       {/* QR toggle */}
       <div className={`glass rounded-2xl p-4 flex items-center justify-between
                        ${isQuestioning ? 'opacity-50' : ''}`}>
         <div>
-          <p className="text-white text-sm font-semibold">Show QR on presentation</p>
+          <p className="text-white text-sm font-semibold">Mostrar QR en la proyección</p>
           <p className="text-white/30 text-xs mt-0.5">
-            {isQuestioning ? 'Disabled during question' : showQR ? 'QR visible on host screen' : 'QR hidden'}
+            {isQuestioning ? 'Desactivado durante la pregunta' : showQR ? 'QR visible en pantalla' : 'QR oculto'}
           </p>
         </div>
         <button
@@ -83,10 +83,10 @@ export default function HostControl({ gameState }) {
 
       {/* Settings */}
       <div className="glass rounded-2xl p-5 space-y-4">
-        <p className="text-xs text-white/40 uppercase tracking-wider font-semibold">Game Settings</p>
+        <p className="text-xs text-white/40 uppercase tracking-wider font-semibold">Configuración de partida</p>
 
         <div>
-          <label className="label">Game Title</label>
+          <label className="label">Título del concurso</label>
           <input
             type="text"
             value={title}
@@ -97,7 +97,7 @@ export default function HostControl({ gameState }) {
         </div>
 
         <div>
-          <label className="label">Player Join URL (used for QR code)</label>
+          <label className="label">Enlace de acceso de participantes (QR)</label>
           <input
             type="text"
             value={joinUrl}
@@ -119,10 +119,10 @@ export default function HostControl({ gameState }) {
         </button>
       </div>
 
-      {/* QR Preview */}
+      {/* Vista previa del QR */}
       <div className="glass rounded-2xl p-5 flex flex-col items-center gap-4">
         <div className="self-start flex items-center gap-2">
-          <p className="text-xs text-white/40 uppercase tracking-wider font-semibold">QR Preview</p>
+          <p className="text-xs text-white/40 uppercase tracking-wider font-semibold">Vista previa del QR</p>
           {dirty && (
             <span className="text-[10px] text-amber-300 bg-amber-500/15 border border-amber-500/30 rounded px-1.5 py-0.5 font-bold">
               Unsaved — click Save Settings
@@ -144,7 +144,7 @@ export default function HostControl({ gameState }) {
           className="w-full py-2 rounded-xl glass border border-white/10 text-xs font-semibold
                      text-white/50 hover:text-white hover:border-white/20 transition-all"
         >
-          {copied ? '✓ Copied!' : 'Copy Join URL'}
+          {copied ? '✓ Copiado' : 'Copiar enlace'}
         </button>
       </div>
     </div>

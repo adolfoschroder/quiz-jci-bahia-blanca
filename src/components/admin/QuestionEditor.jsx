@@ -46,13 +46,13 @@ function QuestionForm({ initial = BLANK, onSave, onCancel, saving }) {
   return (
     <div className="glass-strong rounded-2xl p-5 space-y-4">
       <div>
-        <label className="label">Question Text</label>
+        <label className="label">Texto de la pregunta</label>
         <textarea
           value={q.text}
           onChange={(e) => setQ({ ...q, text: e.target.value })}
           onKeyDown={handleTextKeyDown}
           rows={2}
-          placeholder="What is the capital of France? (Enter → next field, Shift+Enter → new line)"
+          placeholder="Ingresá la pregunta (Enter: siguiente campo; Mayús+Enter: nueva línea)"
           className="input resize-none"
         />
       </div>
@@ -61,7 +61,7 @@ function QuestionForm({ initial = BLANK, onSave, onCancel, saving }) {
         {q.options.map((opt, i) => (
           <div key={i}>
             <label className="label">
-              Option {String.fromCharCode(65 + i)}
+              Opción {String.fromCharCode(65 + i)}
               {i === q.correctAnswer && (
                 <span className="ml-2 text-green-400 text-xs font-bold">✓ Correct</span>
               )}
@@ -73,13 +73,13 @@ function QuestionForm({ initial = BLANK, onSave, onCancel, saving }) {
                 value={opt}
                 onChange={(e) => setOption(i, e.target.value)}
                 onKeyDown={handleOptionKeyDown(i)}
-                placeholder={`Option ${String.fromCharCode(65 + i)}`}
+                placeholder={`Opción ${String.fromCharCode(65 + i)}`}
                 className="input flex-1"
               />
               <button
                 type="button"
                 onClick={() => setQ({ ...q, correctAnswer: i })}
-                title="Mark as correct"
+                title="Marcar como correcta"
                 className={`px-3 rounded-xl border transition-all font-bold text-sm
                   ${i === q.correctAnswer
                     ? 'bg-green-500/30 border-green-500 text-green-300'
@@ -95,7 +95,7 @@ function QuestionForm({ initial = BLANK, onSave, onCancel, saving }) {
 
       <div className="flex items-end gap-4">
         <div>
-          <label className="label">Timer (seconds)</label>
+          <label className="label">Tiempo (segundos)</label>
           <div className="flex items-center gap-2">
             <input
               type="number"
@@ -133,9 +133,9 @@ function QuestionForm({ initial = BLANK, onSave, onCancel, saving }) {
           disabled={!valid || saving}
           className="btn-primary"
         >
-          {saving ? 'Saving…' : 'Save Question'}
+          {saving ? 'Guardando…' : 'Save Question'}
         </button>
-        <button onClick={onCancel} className="btn-ghost">Cancel</button>
+        <button onClick={onCancel} className="btn-ghost">Cancelar</button>
       </div>
     </div>
   );
@@ -220,11 +220,11 @@ export default function QuestionEditor({ questions }) {
       )}
 
       {questions.length === 0 && (
-        <p className="text-center text-white/30 py-8">No questions yet. Add one above.</p>
+        <p className="text-center text-white/30 py-8">Todavía no hay preguntas. Agregá una arriba.</p>
       )}
 
       {questions.length > 1 && (
-        <p className="text-white/20 text-xs text-center">Drag ⠿ to reorder</p>
+        <p className="text-white/20 text-xs text-center">Arrastrá ⠿ para cambiar el orden</p>
       )}
 
       <div className="space-y-3">

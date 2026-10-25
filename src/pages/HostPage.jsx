@@ -39,7 +39,7 @@ export default function HostPage() {
       {/* Join URL — fixed bottom bar, always visible on all host screens */}
       <div className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-center
                       gap-2 py-2 bg-black/30 backdrop-blur-sm border-t border-white/5 pointer-events-none">
-        <span className="text-white/30 text-sm">Join at</span>
+        <span className="text-white/30 text-sm">Ingresá en</span>
         <span className="text-brand-300 text-sm font-bold">
           {joinUrl.replace(/^https?:\/\//, '')}
         </span>
@@ -64,7 +64,7 @@ export default function HostPage() {
               fgColor="#ffffff"
               level="M"
             />
-            <span className="text-white/50 text-sm">Scan to join</span>
+            <span className="text-white/50 text-sm">Escaneá el QR para participar</span>
           </motion.div>
         )}
       </AnimatePresence>

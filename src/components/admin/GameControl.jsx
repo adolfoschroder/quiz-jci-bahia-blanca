@@ -28,7 +28,7 @@ function ActionButton({ label, onClick, disabled, variant = 'primary', danger = 
 
   const base = 'w-full py-3 rounded-xl font-bold text-sm transition-all disabled:opacity-40 disabled:cursor-not-allowed';
   const styles = {
-    primary: `${base} bg-gradient-to-r from-brand-600 to-purple-600 hover:from-brand-500 hover:to-purple-500 text-white shadow-lg`,
+    primary: `${base} bg-gradient-to-r from-brand-600 to-cyan-600 hover:from-brand-500 hover:to-cyan-500 text-white shadow-lg`,
     secondary: `${base} glass border border-white/20 text-white hover:bg-white/10`,
     danger: `${base} bg-red-600/30 border border-red-500/50 text-red-300 hover:bg-red-600/50`,
   };
@@ -43,7 +43,7 @@ function ActionButton({ label, onClick, disabled, variant = 'primary', danger = 
       {loading ? (
         <span className="flex items-center justify-center gap-2">
           <span className="w-3 h-3 border-2 border-current/30 border-t-current rounded-full animate-spin" />
-          Working…
+          Procesando…
         </span>
       ) : label}
     </motion.button>

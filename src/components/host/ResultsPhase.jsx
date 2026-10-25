@@ -130,7 +130,7 @@ export default function ResultsPhase({ question, questionIndex, totalQuestions }
                 borderRadius: 12,
                 color: 'white',
               }}
-              formatter={(val, name, props) => [`${val} votes`, props.payload.correct ? '✅ Correct' : '❌ Wrong']}
+              formatter={(val, name, props) => [`${val} votos`, props.payload.correct ? '✅ Correcta' : '❌ Incorrecta']}
               labelStyle={{ color: '#a78bfa' }}
             />
             <Bar dataKey="count" radius={[0, 8, 8, 0]} isAnimationActive animationDuration={800}>

@@ -73,7 +73,7 @@ export default function AnswerResult({ question, playerId }) {
       >
         <p className={`text-3xl font-black
           ${!didAnswer ? 'text-gray-400' : isCorrect ? 'text-green-400' : 'text-red-400'}`}>
-          {!didAnswer ? "Time's up!" : isCorrect ? 'Correct!' : 'Wrong!'}
+          {!didAnswer ? "¡Se terminó el tiempo!" : isCorrect ? '¡Correcto!' : 'Incorrecto'}
         </p>
         {didAnswer && (
           <p className="text-white/40 text-sm mt-1">
@@ -117,7 +117,7 @@ export default function AnswerResult({ question, playerId }) {
             <span className="text-white text-sm font-semibold flex-1">
               {question.options[correct]}
             </span>
-            <span className="text-green-400 text-xs font-bold">Correct</span>
+            <span className="text-green-400 text-xs font-bold">Correcta</span>
           </div>
         )}
       </motion.div>
@@ -128,7 +128,7 @@ export default function AnswerResult({ question, playerId }) {
         transition={{ delay: 0.5 }}
         className="text-white/30 text-xs"
       >
-        Leaderboard coming up…
+        A continuación, la clasificación…
       </motion.p>
     </div>
   );

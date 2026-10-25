@@ -4,7 +4,7 @@ export default function ErrorScreen({ message = 'Something went wrong', onRetry 
                     bg-gradient-to-br from-[#0f0a1e] via-[#1a0a2e] to-[#0a1628]">
       <div className="glass rounded-2xl p-6 max-w-sm w-full text-center space-y-4">
         <div className="text-5xl">⚠️</div>
-        <h1 className="text-xl font-black text-white">Connection problem</h1>
+        <h1 className="text-xl font-black text-white">Problema de conexión</h1>
         <p className="text-white/50 text-sm break-words">{message}</p>
         <button
           onClick={onRetry || (() => window.location.reload())}

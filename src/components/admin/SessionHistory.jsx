@@ -30,7 +30,7 @@ function csvEscape(val) {
 
 function downloadCSV(session) {
   const rows = [
-    ['Rank', 'Name', 'Score'],
+    ['Posición', 'Nombre', 'Puntaje'],
     ...session.players.map((p) => [p.rank, p.name, p.score]),
   ];
   const csv  = rows.map((r) => r.map(csvEscape).join(',')).join('\r\n');
@@ -59,7 +59,7 @@ function SessionCard({ session }) {
           <p className="text-white font-black text-base leading-none">{session.title}</p>
           <p className="text-white/30 text-xs mt-1">{formatDate(session.endedAt)}</p>
           {duration(session.startedAt, session.endedAt) && (
-            <p className="text-white/20 text-xs">Duration: {duration(session.startedAt, session.endedAt)}</p>
+            <p className="text-white/20 text-xs">Duración: {duration(session.startedAt, session.endedAt)}</p>
           )}
         </div>
         <button
@@ -84,7 +84,7 @@ function SessionCard({ session }) {
           </div>
         ))}
         {top3.length === 0 && (
-          <p className="text-white/20 text-xs">No players recorded</p>
+          <p className="text-white/20 text-xs">Sin participantes registrados</p>
         )}
       </div>
 
@@ -95,7 +95,7 @@ function SessionCard({ session }) {
             onClick={() => setExpanded((v) => !v)}
             className="text-xs text-brand-400 hover:text-brand-300 transition-colors font-semibold"
           >
-            {expanded ? '▲ Show less' : `▼ Show all ${session.players.length} players`}
+            {expanded ? '▲ Mostrar menos' : `▼ Mostrar los ${session.players.length} players`}
           </button>
 
           <AnimatePresence>

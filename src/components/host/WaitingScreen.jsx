@@ -28,7 +28,7 @@ export default function WaitingScreen({ gameState }) {
         <motion.div
           animate={{ scale: [1.2, 1, 1.2], opacity: [0.1, 0.2, 0.1] }}
           transition={{ duration: 8, repeat: Infinity }}
-          className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-800 rounded-full blur-3xl"
+          className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-brand-800 rounded-full blur-3xl"
         />
       </div>
 

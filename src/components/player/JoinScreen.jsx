@@ -38,7 +38,7 @@ export default function JoinScreen({ onJoin, joining, error, suggested, onClearS
             transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
             className="mb-3"
           >
-            <img src="/logo.svg" alt="Quiz JCI Bahía Blanca" className="w-14 h-14 mx-auto" />
+            <img src="/jci-bahia-blanca.svg" alt="Quiz JCI Bahía Blanca" className="w-44 h-auto mx-auto" />
           </motion.div>
           <h1 className="text-2xl font-black gradient-text">{gameTitle}</h1>
           <p className="text-brand-300 mt-1 text-sm">Ingresá tu nombre para participar</p>

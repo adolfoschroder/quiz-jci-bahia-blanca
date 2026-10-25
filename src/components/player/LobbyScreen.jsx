@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { subscribeToPlayerCount } from '../../firebase/db';
 
-export default function LobbyScreen({ playerName, gameTitle = 'QuizLive' }) {
+export default function LobbyScreen({ playerName, gameTitle = 'Quiz JCI Bahía Blanca' }) {
   const [playerCount, setPlayerCount] = useState(0);
 
   useEffect(() => {
@@ -35,14 +35,14 @@ export default function LobbyScreen({ playerName, gameTitle = 'QuizLive' }) {
 
         <div className="glass rounded-2xl p-6 mt-6 space-y-4">
           <div>
-            <p className="text-white/50 text-xs uppercase tracking-wider font-semibold">Joined as</p>
+            <p className="text-white/50 text-xs uppercase tracking-wider font-semibold">Ingresaste como</p>
             <p className="text-2xl font-black text-white mt-1">{playerName}</p>
           </div>
 
           <div className="h-px bg-white/10" />
 
           <div>
-            <p className="text-white/50 text-xs uppercase tracking-wider font-semibold">Players in lobby</p>
+            <p className="text-white/50 text-xs uppercase tracking-wider font-semibold">Participantes en espera</p>
             <motion.p
               key={playerCount}
               initial={{ scale: 1.3, color: '#a78bfa' }}
@@ -57,7 +57,7 @@ export default function LobbyScreen({ playerName, gameTitle = 'QuizLive' }) {
 
           <div className="flex items-center justify-center gap-2 text-brand-300">
             <span className="w-2 h-2 rounded-full bg-brand-400 animate-ping" />
-            <span className="text-sm font-medium">Waiting for host to start…</span>
+            <span className="text-sm font-medium">Esperando que el presentador inicie…</span>
           </div>
         </div>
       </motion.div>

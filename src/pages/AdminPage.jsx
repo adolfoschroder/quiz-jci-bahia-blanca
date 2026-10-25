@@ -20,10 +20,10 @@ import LoadingSpinner  from '../components/shared/LoadingSpinner';
 import ErrorScreen     from '../components/shared/ErrorScreen';
 
 const TABS = [
-  { id: 'questions', label: '📝 Questions' },
-  { id: 'game',      label: '🎮 Game Control' },
-  { id: 'host',      label: '🖥 Host / QR' },
-  { id: 'history',   label: '📋 History' },
+  { id: 'questions', label: '📝 Preguntas' },
+  { id: 'game',      label: '🎮 Control de partida' },
+  { id: 'host',      label: '🖥 Proyección / QR' },
+  { id: 'history',   label: '📋 Historial' },
 ];
 
 function AboutCorner() {
@@ -138,10 +138,10 @@ export default function AdminPage() {
       {/* Header */}
       <header className="glass border-b border-white/10 px-6 py-4 flex items-center justify-between sticky top-0 z-40">
         <div className="flex items-center gap-3">
-          <img src="/logo.svg" alt="QuizLive" className="w-8 h-8" />
+          <img src="/jci-bahia-blanca.svg" alt="QuizLive" className="w-20 h-auto" />
           <div>
-            <h1 className="font-black text-white leading-none">Admin Panel</h1>
-            <p className="text-brand-300 text-xs">{gameState?.title ?? 'QuizLive'}</p>
+            <h1 className="font-black text-white leading-none">Panel de administración</h1>
+            <p className="text-brand-300 text-xs">{gameState?.title ?? 'Quiz JCI Bahía Blanca'}</p>
           </div>
         </div>
         <div className="flex items-center gap-3">

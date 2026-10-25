@@ -28,8 +28,8 @@ export default function EndedPhase() {
         className="relative z-10 text-center"
       >
         <div className="text-8xl mb-4">🏆</div>
-        <h1 className="text-7xl font-black gradient-text mb-2">Quiz Over!</h1>
-        <p className="text-brand-300 text-2xl mb-12">Thanks everyone for playing!</p>
+        <h1 className="text-7xl font-black gradient-text mb-2">¡Terminó el concurso!</h1>
+        <p className="text-brand-300 text-2xl mb-12">¡Gracias por participar!</p>
 
         <div className="flex justify-center items-end gap-6">
           {[

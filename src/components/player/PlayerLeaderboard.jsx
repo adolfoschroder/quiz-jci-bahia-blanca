@@ -32,8 +32,8 @@ export default function PlayerLeaderboard({ playerId, playerName }) {
         animate={{ opacity: 1, y: 0 }}
         className="text-center mb-4"
       >
-        <h2 className="text-2xl font-black gradient-text">Leaderboard</h2>
-        <p className="text-brand-300 text-sm mt-0.5">Check the big screen!</p>
+        <h2 className="text-2xl font-black gradient-text">Clasificación</h2>
+        <p className="text-brand-300 text-sm mt-0.5">¡Mirá la pantalla principal!</p>
       </motion.div>
 
       {/* My stats card */}
@@ -44,13 +44,13 @@ export default function PlayerLeaderboard({ playerId, playerName }) {
         className="glass-strong rounded-2xl p-4 mb-4 flex items-center justify-between"
       >
         <div>
-          <p className="text-xs text-brand-300 uppercase tracking-wider font-semibold">Your rank</p>
+          <p className="text-xs text-brand-300 uppercase tracking-wider font-semibold">Tu posición</p>
           <p className="text-3xl font-black text-white mt-0.5">
             {myRank != null ? `#${myRank}` : '—'}
           </p>
         </div>
         <div className="text-right">
-          <p className="text-xs text-brand-300 uppercase tracking-wider font-semibold">Score</p>
+          <p className="text-xs text-brand-300 uppercase tracking-wider font-semibold">Puntaje</p>
           <p className="text-3xl font-black gradient-text mt-0.5">{myScore}</p>
         </div>
       </motion.div>
@@ -83,7 +83,7 @@ export default function PlayerLeaderboard({ playerId, playerName }) {
               {/* Name */}
               <span className={`flex-1 font-bold truncate text-sm
                 ${isMe ? 'text-brand-300' : 'text-white'}`}>
-                {p.name}{isMe ? ' (you)' : ''}
+                {p.name}{isMe ? ' (vos)' : ''}
               </span>
 
               {/* Score */}

@@ -207,7 +207,7 @@ export default function LeaderboardPhase({ gameState, questions }) {
 
                   <div className="flex items-center gap-1 shrink-0">
                     <span className="text-brand-300 font-black tabular-nums">{p.score}</span>
-                    <span className="text-white/30 text-xs">pts</span>
+                    <span className="text-white/30 text-xs">puntos</span>
                   </div>
                 </motion.div>
               ))}
@@ -216,10 +216,10 @@ export default function LeaderboardPhase({ gameState, questions }) {
         )}
 
         {players.length === 0 && (
-          <p className="text-center text-white/30 text-lg mt-4">No players yet</p>
+          <p className="text-center text-white/30 text-lg mt-4">Todavía no hay participantes</p>
         )}
 
-        <p className="text-center text-white/30 text-sm font-medium mt-4">deadtechguy.fun</p>
+        <p className="text-center text-white/30 text-sm font-medium mt-4">JCI Bahía Blanca</p>
       </div>
     </div>
   );

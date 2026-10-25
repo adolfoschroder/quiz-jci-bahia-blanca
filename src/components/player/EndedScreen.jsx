@@ -28,16 +28,16 @@ export default function EndedScreen({ playerId, playerName }) {
         <div className="text-6xl mb-4">
           {isWinner ? '🏆' : myRank <= 3 ? '🎉' : '👏'}
         </div>
-        <h2 className="text-2xl font-black gradient-text mb-1">Quiz Over!</h2>
-        <p className="text-white/50 text-sm mb-6">Thanks for playing, {playerName}!</p>
+        <h2 className="text-2xl font-black gradient-text mb-1">¡Terminó el concurso!</h2>
+        <p className="text-white/50 text-sm mb-6">¡Gracias por participar, {playerName}!</p>
 
         <div className="space-y-3">
           <div className="glass rounded-xl p-3">
-            <p className="text-xs text-brand-300 uppercase tracking-wider">Final Rank</p>
+            <p className="text-xs text-brand-300 uppercase tracking-wider">Posición final</p>
             <p className="text-3xl font-black text-white">#{myRank || '—'}</p>
           </div>
           <div className="glass rounded-xl p-3">
-            <p className="text-xs text-brand-300 uppercase tracking-wider">Total Score</p>
+            <p className="text-xs text-brand-300 uppercase tracking-wider">Puntaje total</p>
             <p className="text-3xl font-black gradient-text">{myScore}</p>
           </div>
         </div>
