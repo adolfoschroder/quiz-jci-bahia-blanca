@@ -96,7 +96,7 @@ function PodiumSlot({ player, rank, style, delay }) {
         <p className={`${style.textColor} font-black ${style.textSize} text-center px-2 w-full truncate`}>
           {player.name}
         </p>
-        <p className={`${style.subColor} text-xs font-bold mt-0.5`}>{player.score} pts</p>
+        <p className={`${style.subColor} text-xs font-bold mt-0.5`}>{player.score} puntos</p>
       </div>
     </motion.div>
   );
@@ -121,7 +121,7 @@ export default function LeaderboardPhase({ gameState, questions }) {
 
   return (
     <div className="min-h-screen w-full flex flex-col overflow-hidden relative
-                    bg-gradient-to-b from-[#0f0a1e] via-[#160b2e] to-[#0a1628]">
+                    bg-gradient-to-b from-[#060B1C] via-[#0A0B27] to-[#130F2D]">
 
       {/* Falling confetti */}
       {top50.length > 0 && <Particles count={28} />}
@@ -145,7 +145,7 @@ export default function LeaderboardPhase({ gameState, questions }) {
           className="text-center"
         >
           <h1 className="text-6xl font-black gradient-text tracking-tight leading-none">
-            🏆 Leaderboard
+            🏆 Clasificación
           </h1>
           {isLast && (
             <motion.p
@@ -154,7 +154,7 @@ export default function LeaderboardPhase({ gameState, questions }) {
               transition={{ delay: 0.5 }}
               className="text-brand-300 text-xl mt-2 font-semibold"
             >
-              Final Results!
+              ¡Resultados finales!
             </motion.p>
           )}
         </motion.div>
@@ -198,7 +198,7 @@ export default function LeaderboardPhase({ gameState, questions }) {
 
                   {/* Avatar */}
                   <div className="w-9 h-9 rounded-full bg-gradient-to-br from-brand-500
-                                  to-purple-600 flex items-center justify-center text-sm
+                                  to-cyan-600 flex items-center justify-center text-sm
                                   font-black text-white shrink-0 shadow-md">
                     {p.name.charAt(0).toUpperCase()}
                   </div>
