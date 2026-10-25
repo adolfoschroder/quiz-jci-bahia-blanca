@@ -3,6 +3,9 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     // ─── Helpers ──────────────────────────────────────────────
+    function isAdmin() {
+      return request.auth != null && request.auth.uid == 'yxfjM5aYwCekqwW8q0IPB7OGCt13';
+    }
     function game() {
       return get(/databases/$(database)/documents/meta/gameState).data;
     }
@@ -40,8 +43,8 @@ service cloud.firestore {
       allow create: if request.resource.data.phase == 'waiting'
                     && request.resource.data.currentQuestionIndex == 0
                     && request.resource.data.questionStartTime == null;
-      allow update: if request.auth != null;
-      allow delete: if request.auth != null;
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
     }
 
     // ─── questions ────────────────────────────────────────────
@@ -50,9 +53,9 @@ service cloud.firestore {
     // cannot fetch all answers via DevTools before answering.
     match /questions/{id} {
       allow read:   if true;
-      allow create, update: if request.auth != null
+      allow create, update: if isAdmin()
                             && !('correctAnswer' in request.resource.data);
-      allow delete: if request.auth != null;
+      allow delete: if isAdmin();
     }
 
     // ─── answerKeys ───────────────────────────────────────────
@@ -61,13 +64,13 @@ service cloud.firestore {
     // question phase ends, and only for questions at-or-before the current
     // index — i.e., revealed answers are visible, future answers are not.
     match /answerKeys/{id} {
-      allow read:  if request.auth != null
+      allow read:  if isAdmin()
                    || game().phase == 'ended'
                    || (
                         (game().phase == 'results' || game().phase == 'leaderboard')
                         && question(id).order <= game().currentQuestionIndex
                       );
-      allow write: if request.auth != null;
+      allow write: if isAdmin();
     }
 
     // ─── players ──────────────────────────────────────────────
@@ -79,7 +82,7 @@ service cloud.firestore {
                     && request.resource.data.name.size() >= 2
                     && request.resource.data.name.size() <= 20
                     && request.resource.data.score == 0;
-      allow delete: if request.auth != null;
+      allow delete: if isAdmin();
     }
 
     // ─── answers ──────────────────────────────────────────────
@@ -89,14 +92,14 @@ service cloud.firestore {
       allow read:   if true;
       allow create: if answerIsValid(answerId, request.resource.data);
       allow update: if answerIsValid(answerId, request.resource.data);
-      allow delete: if request.auth != null;
+      allow delete: if isAdmin();
     }
 
     // ─── sessions ─────────────────────────────────────────────
     // Public read for history; admin-only write (saved when quiz ends).
     match /sessions/{sessionId} {
       allow read:  if true;
-      allow write: if request.auth != null;
+      allow write: if isAdmin();
     }
   }
 }
