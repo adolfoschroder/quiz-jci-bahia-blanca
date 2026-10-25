@@ -8,11 +8,11 @@ const BLANK = {
   timer:         15,
 };
 
-function QuestionForm({ initial = BLANK, onSave, onCancelar, saving }) {
+function QuestionForm({ initial = BLANK, onSave, onCancel, saving }) {
   const [q, setQ] = useState({ ...BLANK, ...initial });
   const optionRefs = useRef([]);
 
-  const setOpción = (i, val) => {
+  const setOption = (i, val) => {
     const opts = [...q.options];
     opts[i] = val;
     setQ({ ...q, options: opts });
@@ -46,13 +46,13 @@ function QuestionForm({ initial = BLANK, onSave, onCancelar, saving }) {
   return (
     <div className="glass-strong rounded-2xl p-5 space-y-4">
       <div>
-        <label className="label">Texto de la pregunta</label>
+        <label className="label">Question Text</label>
         <textarea
           value={q.text}
           onChange={(e) => setQ({ ...q, text: e.target.value })}
           onKeyDown={handleTextKeyDown}
           rows={2}
-          placeholder="Escribí la pregunta (Enter → siguiente campo; Mayús+Enter → nueva línea)"
+          placeholder="What is the capital of France? (Enter → next field, Shift+Enter → new line)"
           className="input resize-none"
         />
       </div>
@@ -61,9 +61,9 @@ function QuestionForm({ initial = BLANK, onSave, onCancelar, saving }) {
         {q.options.map((opt, i) => (
           <div key={i}>
             <label className="label">
-              Opción {String.fromCharCode(65 + i)}
+              Option {String.fromCharCode(65 + i)}
               {i === q.correctAnswer && (
-                <span className="ml-2 text-green-400 text-xs font-bold">✓ Correcta</span>
+                <span className="ml-2 text-green-400 text-xs font-bold">✓ Correct</span>
               )}
             </label>
             <div className="flex gap-2">
@@ -73,13 +73,13 @@ function QuestionForm({ initial = BLANK, onSave, onCancelar, saving }) {
                 value={opt}
                 onChange={(e) => setOption(i, e.target.value)}
                 onKeyDown={handleOptionKeyDown(i)}
-                placeholder={`Opción ${String.fromCharCode(65 + i)}`}
+                placeholder={`Option ${String.fromCharCode(65 + i)}`}
                 className="input flex-1"
               />
               <button
                 type="button"
                 onClick={() => setQ({ ...q, correctAnswer: i })}
-                title="Marcar como correcta"
+                title="Mark as correct"
                 className={`px-3 rounded-xl border transition-all font-bold text-sm
                   ${i === q.correctAnswer
                     ? 'bg-green-500/30 border-green-500 text-green-300'
@@ -95,7 +95,7 @@ function QuestionForm({ initial = BLANK, onSave, onCancelar, saving }) {
 
       <div className="flex items-end gap-4">
         <div>
-          <label className="label">Tiempo (segundos)</label>
+          <label className="label">Timer (seconds)</label>
           <div className="flex items-center gap-2">
             <input
               type="number"
@@ -133,16 +133,16 @@ function QuestionForm({ initial = BLANK, onSave, onCancelar, saving }) {
           disabled={!valid || saving}
           className="btn-primary"
         >
-          {saving ? 'Guardando…' : 'Guardar pregunta'}
+          {saving ? 'Saving…' : 'Save Question'}
         </button>
-        <button onClick={onCancelar} className="btn-ghost">Cancelar</button>
+        <button onClick={onCancel} className="btn-ghost">Cancel</button>
       </div>
     </div>
   );
 }
 
-export default function QuestionEditaror({ questions }) {
-  const [editing,    setEditaring]    = useState(null);
+export default function QuestionEditor({ questions }) {
+  const [editing,    setEditing]    = useState(null);
   const [saving,     setSaving]     = useState(false);
   const [deleting,   setDeleting]   = useState(null);
   const [confirmDel, setConfirmDel] = useState(null);
@@ -154,14 +154,14 @@ export default function QuestionEditaror({ questions }) {
     try {
       if (editing === 'new') await addQuestion(q);
       else                   await updateQuestion(editing, q);
-      setEditaring(null);
+      setEditing(null);
     } catch (err) {
       console.error('Save question failed:', err);
-      alert(`No se pudo guardar la pregunta: ${err.message ?? err}`);
+      alert(`Couldn't save question: ${err.message ?? err}`);
     } finally { setSaving(false); }
   };
 
-  const handleEliminar = async (id) => {
+  const handleDelete = async (id) => {
     // Two-step inline confirm — first click arms, second click fires.
     // Replaced window.confirm() because some browsers silently suppress
     // it (no callback, no console), which made "nothing happens on click"
@@ -176,8 +176,8 @@ export default function QuestionEditaror({ questions }) {
     try {
       await deleteQuestion(id);
     } catch (err) {
-      console.error('Eliminar question failed:', err);
-      alert(`No se pudo eliminar la pregunta: ${err.code || err.message || err}`);
+      console.error('Delete question failed:', err);
+      alert(`Couldn't delete question: ${err.code || err.message || err}`);
     } finally {
       setDeleting(null);
     }
@@ -202,29 +202,29 @@ export default function QuestionEditaror({ questions }) {
     <div className="space-y-4">
       {editing !== 'new' && (
         <button
-          onClick={() => setEditaring('new')}
+          onClick={() => setEditing('new')}
           className="w-full py-3 rounded-xl border-2 border-dashed border-brand-600/50
                      text-brand-400 font-semibold hover:border-brand-400 hover:text-brand-300
                      transition-all flex items-center justify-center gap-2"
         >
-          + Agregar pregunta
+          + Add Question
         </button>
       )}
 
       {editing === 'new' && (
         <QuestionForm
           onSave={handleSave}
-          onCancelar={() => setEditaring(null)}
+          onCancel={() => setEditing(null)}
           saving={saving}
         />
       )}
 
       {questions.length === 0 && (
-        <p className="text-center text-white/30 py-8">Todavía no hay preguntas. Agregá una arriba.</p>
+        <p className="text-center text-white/30 py-8">No questions yet. Add one above.</p>
       )}
 
       {questions.length > 1 && (
-        <p className="text-white/20 text-xs text-center">Arrastrá ⠿ para cambiar el orden</p>
+        <p className="text-white/20 text-xs text-center">Drag ⠿ to reorder</p>
       )}
 
       <div className="space-y-3">
@@ -243,7 +243,7 @@ export default function QuestionEditaror({ questions }) {
               <QuestionForm
                 initial={q}
                 onSave={handleSave}
-                onCancelar={() => setEditaring(null)}
+                onCancel={() => setEditing(null)}
                 saving={saving}
               />
             ) : (
@@ -274,18 +274,18 @@ export default function QuestionEditaror({ questions }) {
                       </span>
                     ))}
                   </div>
-                  <p className="text-white/30 text-xs mt-1.5">⏱ {q.timer ?? 15}s · máx. 30 puntos</p>
+                  <p className="text-white/30 text-xs mt-1.5">⏱ {q.timer ?? 15}s · max 30 pts</p>
                 </div>
 
                 <div className="flex gap-2 shrink-0">
                   <button
-                    onClick={() => setEditaring(q.id)}
+                    onClick={() => setEditing(q.id)}
                     className="btn-ghost text-xs py-1 px-3"
                   >
-                    Editar
+                    Edit
                   </button>
                   <button
-                    onClick={() => handleEliminar(q.id)}
+                    onClick={() => handleDelete(q.id)}
                     disabled={deleting === q.id}
                     className={`text-xs transition-colors py-1 px-3 rounded-xl border
                       ${confirmDel === q.id
@@ -293,7 +293,7 @@ export default function QuestionEditaror({ questions }) {
                         : 'glass border-red-500/20 text-red-400 hover:text-red-300 hover:border-red-400/40'
                       }`}
                   >
-                    {deleting === q.id ? '…' : confirmDel === q.id ? '¿Confirmar?' : 'Eliminar'}
+                    {deleting === q.id ? '…' : confirmDel === q.id ? 'Confirm?' : 'Delete'}
                   </button>
                 </div>
               </div>
