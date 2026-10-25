@@ -4,7 +4,7 @@ import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth } from '../firebase/config';
 import useGameState    from '../hooks/useGameState';
 import {
-  subscribeToQuestions,
+  subscribeToPreguntas,
   subscribeToAnswerKeys,
   subscribeToPlayers,
   saveSession,
@@ -12,18 +12,18 @@ import {
   migrateAnswerKeys,
 } from '../firebase/db';
 import LoginScreen     from '../components/admin/LoginScreen';
-import QuestionEditor  from '../components/admin/QuestionEditor';
+import preguntasuestionEditor  from '../components/admin/QuestionEditor';
 import GameControl     from '../components/admin/GameControl';
 import HostControl     from '../components/admin/HostControl';
-import SessionHistory  from '../components/admin/SessionHistory';
+import SessionHistorial  from '../components/admin/SessionHistorial';
 import LoadingSpinner  from '../components/shared/LoadingSpinner';
 import ErrorScreen     from '../components/shared/ErrorScreen';
 
 const TABS = [
-  { id: 'questions', label: '📝 Questions' },
-  { id: 'game',      label: '🎮 Game Control' },
-  { id: 'host',      label: '🖥 Host / QR' },
-  { id: 'history',   label: '📋 History' },
+  { id: 'questions', label: '📝 Preguntas' },
+  { id: 'game',      label: '🎮 Control de partida' },
+  { id: 'host',      label: '🖥 Pantalla / preguntasR' },
+  { id: 'history',   label: '📋 Historial' },
 ];
 
 function AboutCorner() {
@@ -50,7 +50,7 @@ export default function AdminPage() {
   const [authed,      setAuthed]      = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
   const [tab,         setTab]         = useState('game');
-  const [questions,   setQuestions]   = useState([]);
+  const [questions,   setPreguntas]   = useState([]);
   const [answerKeys,  setAnswerKeys]  = useState({});
   const [players,     setPlayers]     = useState([]);
   const [migration,   setMigration]   = useState(null); // {count} | {error}
@@ -74,14 +74,14 @@ export default function AdminPage() {
     migrateAnswerKeys()
       .then((count) => { if (count > 0) setMigration({ count }); })
       .catch((err) => console.error('migrateAnswerKeys:', err));
-    const u1 = subscribeToQuestions(setQuestions);
+    const u1 = subscribeToPreguntas(setPreguntas);
     const u2 = subscribeToPlayers(setPlayers);
     const u3 = subscribeToAnswerKeys(setAnswerKeys);
     return () => { u1(); u2(); u3(); };
   }, [authed]);
 
   // Merge correctAnswer back in for admin UI (editor needs to display + edit it).
-  const enrichedQuestions = questions.map((q) => ({
+  const enrichedPreguntas = questions.map((q) => ({
     ...q,
     correctAnswer: answerKeys[q.id] ?? 0,
   }));
@@ -134,25 +134,25 @@ export default function AdminPage() {
   if (loading)     return <LoadingSpinner />;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0f0a1e] via-[#1a0a2e] to-[#0a1628]">
+    <div className="min-h-screen bg-gradient-to-br from-[#060B1C] via-[#0A0B27] to-[#130F2D]">
       {/* Header */}
       <header className="glass border-b border-white/10 px-6 py-4 flex items-center justify-between sticky top-0 z-40">
         <div className="flex items-center gap-3">
-          <img src="/logo.svg" alt="QuizLive" className="w-8 h-8" />
+          <img src="/logo.svg" alt="Quiz JCI Bahía Blanca" className="w-8 h-8" />
           <div>
-            <h1 className="font-black text-white leading-none">Admin Panel</h1>
-            <p className="text-brand-300 text-xs">{gameState?.title ?? 'QuizLive'}</p>
+            <h1 className="font-black text-white leading-none">Panel de administración</h1>
+            <p className="text-brand-300 text-xs">{gameState?.title ?? 'Quiz JCI Bahía Blanca'}</p>
           </div>
         </div>
         <div className="flex items-center gap-3">
           <div className="glass rounded-xl px-3 py-1.5 text-xs text-white/60">
-            {players.length} player{players.length !== 1 ? 's' : ''} · {questions.length} Q
+            {players.length} participante{players.length !== 1 ? 's' : ''} · {questions.length} preguntas
           </div>
           <button
             onClick={() => signOut(auth)}
             className="text-xs text-white/30 hover:text-white/60 transition-colors"
           >
-            Logout
+            Salir
           </button>
         </div>
       </header>
@@ -178,7 +178,7 @@ export default function AdminPage() {
       {migration?.count > 0 && (
         <div className="px-4 py-2 text-xs text-center font-semibold
                         bg-green-500/20 text-green-300 border-b border-green-500/40">
-          ✓ Set up {migration.count} answer key{migration.count !== 1 ? 's' : ''}
+          ✓ Configuradas {migration.count} respuestas correctas{migration.count !== 1 ? 's' : ''}
           <button
             onClick={() => setMigration(null)}
             className="ml-3 text-white/40 hover:text-white"
@@ -195,7 +195,7 @@ export default function AdminPage() {
           transition={{ duration: 0.2 }}
         >
           {tab === 'questions' && (
-            <QuestionEditor questions={enrichedQuestions} />
+            <QuestionEditor questions={enrichedPreguntas} />
           )}
           {tab === 'game' && (
             <GameControl gameState={gameState} questions={questions} />
@@ -204,7 +204,7 @@ export default function AdminPage() {
             <HostControl gameState={gameState} />
           )}
           {tab === 'history' && (
-            <SessionHistory />
+            <SessionHistorial />
           )}
         </motion.div>
       </main>
