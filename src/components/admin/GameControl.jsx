@@ -14,7 +14,7 @@ const PHASE_LABELS = {
   question:    { label: 'Pregunta en curso', color: 'text-yellow-300', dot: 'bg-yellow-400' },
   results:     { label: 'Mostrando resultados',      color: 'text-orange-300', dot: 'bg-orange-400' },
   leaderboard: { label: 'Clasificación',          color: 'text-green-300',  dot: 'bg-green-400' },
-  ended:       { label: 'Concurso terminado',           color: 'text-red-300',    dot: 'bg-red-400' },
+  ended:       { label: 'Trivia finalizada',           color: 'text-red-300',    dot: 'bg-red-400' },
 };
 
 function ActionButton({ label, onClick, disabled, variant = 'primary', danger = false }) {
@@ -103,7 +103,7 @@ export default function GameControl({ gameState, questions }) {
         {/* Waiting → Start */}
         {phase === 'waiting' && (
           <ActionButton
-            label={`🚀 Iniciar concurso (${total} pregunta${total !== 1 ? 's' : ''})`}
+            label={`🚀 Iniciar trivia (${total} pregunta${total !== 1 ? 's' : ''})`}
             disabled={total === 0}
             onClick={startQuiz}
           />
@@ -136,7 +136,7 @@ export default function GameControl({ gameState, questions }) {
               />
             )}
             <ActionButton
-              label={isLastQuestion ? '🏁 Finalizar concurso' : '🏁 Finalizar anticipadamente'}
+              label={isLastQuestion ? '🏁 Finalizar trivia' : '🏁 Finalizar anticipadamente'}
               onClick={endQuiz}
               variant={isLastQuestion ? 'primary' : 'secondary'}
             />
@@ -145,7 +145,7 @@ export default function GameControl({ gameState, questions }) {
 
         {/* Ended */}
         {phase === 'ended' && (
-          <p className="text-center text-white/40 text-sm py-2">El concurso terminó. Reiniciá para comenzar otra partida.</p>
+          <p className="text-center text-white/40 text-sm py-2">La trivia terminó. Reiniciá para comenzar otra partida.</p>
         )}
       </div>
 
