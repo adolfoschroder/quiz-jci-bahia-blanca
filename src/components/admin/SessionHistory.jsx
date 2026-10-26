@@ -138,7 +138,7 @@ export default function SessionHistory() {
     <div className="space-y-4">
       {sessions.length === 0 && (
         <p className="text-center text-white/30 py-10 text-sm">
-          No sessions yet. Sessions are saved automatically when a quiz ends.
+          Todavía no hay sesiones guardadas. Se registran automáticamente cuando termina una trivia.
         </p>
       )}
       {sessions.map((s) => (
