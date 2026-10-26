@@ -33,7 +33,7 @@ export default function LobbyScreen({ playerName, gameTitle = 'Quiz JCI Bahía B
         <h1 className="text-2xl sm:text-3xl font-black text-white leading-tight">{gameTitle}</h1>
         <p className="text-white/65 text-sm mt-3">Prepará tus respuestas. ¡En breve empezamos!</p>
 
-        <section className="glass-strong rounded-2xl p-6 mt-7 space-y-5 shadow-xl shadow-black/20" aria-label="Estado del concurso">
+        <section className="glass-strong rounded-2xl p-6 mt-7 space-y-5 shadow-xl shadow-black/20" aria-label="Estado de la trivia">
           <div>
             <p className="text-white/60 text-xs uppercase tracking-wider font-semibold">Tu nombre en el juego</p>
             <p className="text-2xl font-black text-white mt-1 break-words">{playerName}</p>
@@ -65,7 +65,7 @@ export default function LobbyScreen({ playerName, gameTitle = 'Quiz JCI Bahía B
           </div>
         </section>
 
-        <p className="text-white/45 text-xs mt-6">No cierres esta pantalla: el concurso comenzará automáticamente.</p>
+        <p className="text-white/45 text-xs mt-6">No cierres esta pantalla: la trivia comenzará automáticamente.</p>
       </motion.main>
     </div>
   );
