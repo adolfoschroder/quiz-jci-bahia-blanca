@@ -28,7 +28,7 @@ export default function EndedScreen({ playerId, playerName }) {
         <div className="text-6xl mb-4">
           {isWinner ? '🏆' : myRank <= 3 ? '🎉' : '👏'}
         </div>
-        <h2 className="text-2xl font-black gradient-text mb-1">¡Terminó el concurso!</h2>
+        <h2 className="text-2xl font-black gradient-text mb-1">¡Terminó la trivia!</h2>
         <p className="text-white/50 text-sm mb-6">¡Gracias por participar, {playerName}!</p>
 
         <div className="space-y-3">
