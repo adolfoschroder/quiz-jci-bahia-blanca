@@ -59,14 +59,14 @@ export default function HostPage() {
 
   const lastQuestion = qIndex >= questions.length - 1;
   const action = phase === 'waiting' && questions.length
-    ? { label: '▶ Iniciar concurso', run: startQuiz }
+    ? { label: '▶ Iniciar trivia', run: startQuiz }
     : phase === 'question'
       ? { label: '⏭ Mostrar resultados', run: advanceToResults }
       : phase === 'results'
         ? { label: '📊 Mostrar clasificación', run: advanceToLeaderboard }
         : phase === 'leaderboard'
           ? lastQuestion
-            ? { label: '🏁 Finalizar concurso', run: endQuiz }
+            ? { label: '🏁 Finalizar trivia', run: endQuiz }
             : { label: '▶ Siguiente pregunta (' + (qIndex + 2) + '/' + questions.length + ')', run: () => nextQuestion(qIndex, questions.length) }
           : null;
 
