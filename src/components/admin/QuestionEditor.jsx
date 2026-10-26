@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { addQuestion, updateQuestion, deleteQuestion, reorderQuestions } from '../../firebase/db';
+import { addQuestion, updateQuestion, deleteQuestion, reorderQuestions, importQuestionnaire } from '../../firebase/db';
 
 const BLANK = {
   text:          '',
@@ -148,6 +148,26 @@ export default function QuestionEditor({ questions }) {
   const [confirmDel, setConfirmDel] = useState(null);
   const [dragOver,   setDragOver]   = useState(null);
   const dragIdx = useRef(null);
+  const [importing, setImporting] = useState(false);
+  const [importStatus, setImportStatus] = useState('');
+
+  const handleImport = async (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    setImporting(true);
+    setImportStatus('');
+    try {
+      const payload = JSON.parse(await file.text());
+      const result = await importQuestionnaire(payload);
+      setImportStatus('✓ Importación verificada en Firebase: ' + result.count
+        + ' preguntas, cuatro opciones y respuesta correcta, 20 segundos cada una.');
+    } catch (err) {
+      setImportStatus('No se completó la importación: ' + (err?.message ?? err));
+    } finally {
+      setImporting(false);
+      event.target.value = '';
+    }
+  };
 
   const handleSave = async (q) => {
     setSaving(true);
@@ -200,6 +220,23 @@ export default function QuestionEditor({ questions }) {
 
   return (
     <div className="space-y-4">
+      {questions.length === 0 && editing !== 'new' && (
+        <div className="glass-strong rounded-2xl p-5 space-y-3 border border-[#57BCBC]/30">
+          <h2 className="text-white font-bold text-lg">Importar preguntas desde JSON</h2>
+          <p className="text-white/65 text-sm">
+            Cargá el archivo de 12 preguntas de la trivia JCI. La operación conserva el
+            orden y las respuestas correctas, y verifica los datos guardados en Firebase.
+          </p>
+          <label className={`inline-flex items-center justify-center px-4 py-3 rounded-xl font-bold cursor-pointer bg-[#0097D7] text-white ${importing ? 'opacity-50 pointer-events-none' : 'hover:bg-[#007daf]'}`}>
+            {importing ? 'Importando y verificando…' : 'Seleccionar JSON e importar'}
+            <input type="file" accept=".json,application/json" onChange={handleImport}
+              className="sr-only" disabled={importing} />
+          </label>
+        </div>
+      )}
+      {importStatus && (
+        <p role="status" className="glass rounded-xl p-3 text-sm text-white">{importStatus}</p>
+      )}
       {editing !== 'new' && (
         <button
           onClick={() => setEditing('new')}
