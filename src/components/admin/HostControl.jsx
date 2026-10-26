@@ -86,13 +86,13 @@ export default function HostControl({ gameState }) {
         <p className="text-xs text-white/40 uppercase tracking-wider font-semibold">Configuración de partida</p>
 
         <div>
-          <label className="label">Título del concurso</label>
+          <label className="label">Título de la trivia</label>
           <input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             className="input"
-            placeholder="QuizLive"
+            placeholder="Trivia JCI Bahía Blanca"
           />
         </div>
 
