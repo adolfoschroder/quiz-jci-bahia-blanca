@@ -131,6 +131,73 @@ export const resetGame = async () => {
 };
 
 // ─── Questions ────────────────────────────────────────────────
+
+/**
+ * Importa un cuestionario JSON desde una sesión administrativa.
+ * Es atómico y no reemplaza preguntas existentes. Verifica el contenido
+ * escrito leyendo de nuevo preguntas y claves de respuesta.
+ */
+export const importQuestionnaire = async (payload) => {
+  const items = payload?.questions;
+  if (!Array.isArray(items) || items.length !== 12) {
+    throw new Error('El archivo debe contener exactamente 12 preguntas.');
+  }
+  const expected = items.map((item, index) => {
+    const letters = ['A', 'B', 'C', 'D'];
+    if (item.id !== 'JCI-NP-' + String(index + 1).padStart(2, '0')
+        || item.type !== 'multiple_choice'
+        || item.time_limit_seconds !== 20
+        || !item.question || typeof item.question !== 'string'
+        || !item.options || Object.keys(item.options).length !== 4
+        || letters.some(letter => typeof item.options[letter] !== 'string' || !item.options[letter].trim())
+        || !letters.includes(item.correct_option)) {
+      throw new Error('Datos inválidos en la pregunta ' + (index + 1) + '.');
+    }
+    return {
+      id: item.id,
+      text: item.question,
+      options: letters.map(letter => item.options[letter]),
+      timer: item.time_limit_seconds,
+      order: index,
+      correctAnswer: letters.indexOf(item.correct_option),
+    };
+  });
+
+  const existing = await getDocs(questionsCol());
+  if (!existing.empty) throw new Error('Ya existen preguntas. No se importó nada para evitar duplicados.');
+  const batch = writeBatch(db);
+  for (const q of expected) {
+    batch.set(doc(db, 'questions', q.id), {
+      text: q.text,
+      options: q.options,
+      timer: q.timer,
+      order: q.order,
+      createdAt: serverTimestamp(),
+    });
+    batch.set(doc(db, 'answerKeys', q.id), { correctAnswer: q.correctAnswer });
+  }
+  await batch.commit();
+
+  // Lectura independiente desde Firestore: cantidad, orden, opciones,
+  // tiempos y las doce claves privadas.
+  const [savedQuestions, savedKeys] = await Promise.all([
+    getDocs(query(questionsCol(), orderBy('order', 'asc'))),
+    getDocs(answerKeysCol()),
+  ]);
+  const saved = savedQuestions.docs.map(d => ({ id: d.id, ...d.data() }));
+  const keys = new Map(savedKeys.docs.map(d => [d.id, d.data().correctAnswer]));
+  const valid = saved.length === 12 && expected.every((q, i) =>
+    saved[i]?.id === q.id
+    && saved[i]?.text === q.text
+    && saved[i]?.order === q.order
+    && saved[i]?.timer === 20
+    && JSON.stringify(saved[i]?.options) === JSON.stringify(q.options)
+    && keys.get(q.id) === q.correctAnswer
+  );
+  if (!valid) throw new Error('La importación se realizó, pero la verificación posterior encontró diferencias.');
+  return { count: expected.length, verified: true };
+};
+
 // Public question docs hold text/options/timer/order — but NOT correctAnswer.
 // correctAnswer lives in /answerKeys/{questionId}, locked behind rules so
 // players can't fetch all answers via DevTools before answering.
